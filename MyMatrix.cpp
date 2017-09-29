@@ -4,6 +4,7 @@
 #include<iostream>
 #include<string>
 #include "MyMatrix.h"
+#include<time.h>
 using namespace std;
 
 
@@ -30,7 +31,7 @@ MyMatrix::MyMatrix(int rows, int cols) {
 
     // Inserting the values
     for (int i = 0; i <= rows; i++) {
-        for (int j = 0; i <= cols; j++) {
+        for (int j = 0; j <= cols; j++) {
             m[i][j] = 0;
         }
 
@@ -39,6 +40,7 @@ MyMatrix::MyMatrix(int rows, int cols) {
 
     MyMatrix::MyMatrix(int rows, int cols, string num)
     {
+        srand(time(0));
         //Copying the row & column value
         this->rows = rows;
         this->cols = cols;
@@ -53,7 +55,7 @@ MyMatrix::MyMatrix(int rows, int cols) {
             }
             //Insert values
             for (int i = 0; i <= rows; i++) {
-                for (int j = 0; i <= cols; j++) {
+                for (int j = 0; j <= cols; j++) {
                     this->m[i][j] = 1;
                 }
 
@@ -70,8 +72,8 @@ MyMatrix::MyMatrix(int rows, int cols) {
 
             //copying the values
             for (int i = 0; i <= rows; i++) {
-                for (int j = 0; i <= cols; j++) {
-                    this->m[i][j] = rand() % 100;
+                for (int j = 0; j <= cols; j++) {
+                    this->m[i][j] = rand()%100;
                 }
 
             }
@@ -84,7 +86,7 @@ MyMatrix::MyMatrix(int rows, int cols) {
             }
 
             for (int i = 0; i <= rows; i++) {
-                for (int j = 0; i <= cols; j++) {
+                for (int j = 0; j<= cols; j++) {
                     this->m[i][j] = 0;
                 }
 
@@ -93,7 +95,7 @@ MyMatrix::MyMatrix(int rows, int cols) {
     }
 
 
-friend std::ostream& MyMatrix::operator <<(std::ostream &out, const MyMatrix &other) {
+std::ostream &operator <<(std::ostream &out, const MyMatrix &other) {
     //for loop to print the values
     for(int i=0; i<=other.rows; i++)
     {
@@ -160,28 +162,31 @@ MyMatrix MyMatrix::operator-(MyMatrix &other){
 
 
 
-MyMatrix &MyMatrix::operator=(MyMatrix &other){
+MyMatrix &MyMatrix::operator=(const MyMatrix &other) {
 
-    //creating same matrix to copy the values
-    this->rows = other.rows;
-    this->cols = other.cols;
+    //checking to see if they are not equal
 
-    //create the matrix using the constructor
-    this->m = new int *[this->rows];
-    for (int i = 0; i <= this->rows; i++) {
-        m[i] = new int[this->cols];
+    if (this == &other) {
+        return *this;
     }
 
-    // Inserting the values
-    for (int i = 0; i <= this->rows; i++) {
-        for (int j = 0; i <= this->cols; j++) {
-            this->m[i][j] = other.m[i][j];
+    //Create a new memory and copy the values to the new Matrix
+    else {
+
+        MyMatrix(other.rows, other.cols);
+
+        for (int i = 0; i <= rows; i++) {
+            for (int j = 0; j <= cols; j++) {
+                this->m[i][j] = other.m[i][j];
+            }
         }
-
+        return *this;
     }
-
-    return *this;
 }
+
+
+
+
 
 
 MyMatrix MyMatrix::operator*(MyMatrix &other)

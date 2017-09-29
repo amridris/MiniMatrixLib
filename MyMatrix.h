@@ -30,7 +30,7 @@ public:
 
     MyMatrix operator*(MyMatrix &other);
 
-    MyMatrix &operator=(MyMatrix &other);
+    MyMatrix &operator=(const MyMatrix &other);
 
     friend std::ostream& operator<<(std::ostream& out, const MyMatrix &other);
 };
